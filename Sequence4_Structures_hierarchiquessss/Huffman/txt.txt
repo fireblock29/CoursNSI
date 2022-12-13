@@ -1,1 +1,0 @@
-Bonjour à tous, je suis ici pour vous parler du codage de Huffman, algorithme de compression très efficace !
