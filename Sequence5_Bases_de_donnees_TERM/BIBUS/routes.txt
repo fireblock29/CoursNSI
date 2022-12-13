@@ -1,0 +1,61 @@
+route_id,agency_id,route_short_name,route_long_name,route_desc,route_type,route_url,route_color,route_text_color,route_sort_order
+A,5,A,Porte de Plouzané - Portes de Gouesnou/Guipavas,,0,,de007e,ffffff,1
+C,5,C,Jean Moulin - Ateliers,,6,,ea6758,ffffff,2
+01,5,01,Gare - Hôpital Cavale,,3,,e9474f,ffffff,3
+02,5,02,Technopôle - Fort Montbarey - Lambézellec,,3,,ebae06,000000,4
+03,5,03,Océanopolis - AFPA,,3,,ed6c18,ffffff,5
+04,5,04,Liberté - Porte de Gouesnou,,3,,65378d,ffffff,6
+05,5,05,Port de commerce - Provence,,3,,ba8ec0,000000,7
+06,5,06,Fort Montbarey - Recouvrance,,3,,e99bc3,000000,8
+10,5,10,PLOUZANE Bourg - BREST Hôpital Cavale,,3,,174d7a,ffffff,9
+11,5,11,PLOUZANE Bourg - PLOUZANE Piccard,,3,,8397b1,ffffff,10
+12,5,12,GUILERS Roberval - BREST Liberté,,3,,3789a5,ffffff,11
+13,5,13,BOHARS Petite Gare - BREST Liberté,,3,,13558e,ffffff,12
+14,5,14,BOHARS Petite Gare - BREST Strasbourg,,3,,2e835d,ffffff,13
+15,5,15,GOUESNOU Lantel - BREST Villeneuve,,3,,13999a,ffffff,14
+16,5,16,GUIPAVAS Anne de Bretagne - BREST Liberté,,3,,329542,ffffff,15
+17,5,17,LE RELECQ-KERHUON Kerjean - BREST Strasbourg,,3,,66b332,ffffff,16
+18,5,18,LE RELECQ-KERHUON Danton - GUIPAVAS Porte de Guipavas,,3,,719f2e,ffffff,17
+19,5,19,PLOUGASTEL Ty ar Menez - BREST Gare,,3,,b3b113,ffffff,18
+20,5,20,Porte de Gouesnou - Aéroport Brest Bretagne,,3,,bc455d,ffffff,19
+21,5,21,PLOUZANE Mairie  - BREST Bordenave,,3,,90addb,ffffff,20
+22,5,22,GUILERS Roberval - BREST Quatre Pompes,,3,,6190cb,ffffff,21
+23,5,23,PLOUGASTEL Calvaire - BREST Quatre Pompes,,3,,567ebf,ffffff,22
+25,5,25,GOUESNOU Porte de Gouesnou - PLOUGASTEL Calvaire,,3,,93c24d,ffffff,23
+30,5,30,NOCTYBUS Les Iles - Provence,,3,,2e50a0,ffffff,24
+31,5,31,Gare - CIN - Technopôle,,3,,f29ebe,ffffff,25
+40,5,40,Porte de Gouesnou - Mirabeau,,3,,e8af1a,000000,26
+41,5,41,Kerfeunteun - Fontaine Margot,,3,,b98213,000000,27
+42,5,42,Warspite - Le Bot Haut,,3,,f7e308,000000,28
+43,5,43,Thibaudet - Amiral Ronac'h,,3,,f0bb75,000000,29
+44,5,44,Thibaudet - Kerichen Lesven,,3,,ac568b,ffffff,30
+45,5,45,Liberté - Pen ar C'hleuz,,3,,eacae1,000000,31
+46,5,46,Gascogne - Kerichen Lesven,,3,,8bafbc,ffffff,32
+49,5,49,CONSERVATOIRE MUSIQUE Braille - Bergot,,3,,c762a2,ffffff,33
+50,5,50,PLOUZANE Bourg - Mirabeau - Lanroze,,3,,ea8d13,ffffff,34
+51,5,51,PLOUZANE Malmanche - Lanroze,,3,,5ac0cc,ffffff,35
+52,5,52,PLOUZANE Bourg - Amiral Ronarc’h,,3,,0d6468,ffffff,36
+55,5,55,GUILERS Roberval - Le Bot Haut,,3,,3e7053,ffffff,37
+56,5,56,GUILERS Roberval - Landais,,3,,c2e0cc,000000,38
+60,5,60,BOHARS Lannoc - Liberté,,3,,95acad,000000,39
+61,5,61,BOHARS Lannoc - Kermengleuz,,3,,86cedf,000000,40
+65,5,65,GOUESNOU Lantel - Kerichen Lesven,,3,,b73947,ffffff,41
+67,5,67,GOUESNOU Bruyère - Saint Charles,,3,,60192b,ffffff,42
+68,5,68,GOUESNOU Peupliers - Saint Charles,,3,,ad1844,ffffff,43
+69,5,69,GOUESNOU Lantel - Saint Charles,,3,,dba9b6,000000,44
+70,5,70,GUIPAVAS Anne de Bretagne - Mirabeau - Lanroze,,3,,e72d67,ffffff,45
+71,5,71,GUIPAVAS Anne de Bretagne - Mirabeau,,3,,dd0d54,ffffff,46
+72,5,72,GUIPAVAS Poulguinan - Saint Herbot,,3,,c15756,ffffff,47
+75,5,75,GUIPAVAS Chapelle Croix - C.Vallaux,,3,,701036,ffffff,48
+76,5,76,LE RELECQ-KERHUON Baradozic - Mirabeau - Lanroze,,3,,95398d,ffffff,49
+77,5,77,LE RELECQ-KERHUON Baradozic - Liberté,,3,,6b2267,ffffff,50
+78,5,78,LE RELECQ-KERHUON Diwan - Liberté,,3,,7d4984,ffffff,51
+80,5,80,PLOUGASTEL Père Gwenaël - Strasbourg - Lanroze,,3,,6c4f70,ffffff,52
+81,5,81,PLOUGASTEL Kervenal - Mirabeau,,3,,49225b,ffffff,53
+90,6,90,TAD Liberté - Chevillotte,,3,,b7c6e6,ffffff,54
+91,6,91,TAD Centre funéraire - Vali Hir,,3,,b7c6e6,ffffff,55
+92,6,92,TAD Centre funéraire - Hôpital Cavale,,3,,b7c6e6,ffffff,56
+93,6,93,TAD Place des FFI - Roch Glas,,3,,b7c6e6,ffffff,57
+94,6,94,TAD Place des Fusillés - Porte de Gouesnou,,3,,b7c6e6,ffffff,58
+95,6,95,TAD Saint Herbot - Pen-an-Traon,,3,,b7c6e6,ffffff,59
+96,6,96,TAD Pen-an-Traon - Résistance,,3,,b7c6e6,ffffff,60
