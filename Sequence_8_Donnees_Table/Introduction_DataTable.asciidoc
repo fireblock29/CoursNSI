@@ -1,0 +1,304 @@
+#
+
+NUMERIQUE ET SCIENCES INFORMATIQUES 1ère NSI
+
+== Séquence N° 8 : document de formation pour le traitement de données en table
+
+Vous allez découvrir ici quelques fonctions built-in de python qui
+peuvent vous être utiles pour réaliser les traitements sur les données
+en table.
+
+== 1- La fonction zip
+
+
++*In[3]:*+
+[source, ipython3]
+----
+l1 = [4,7,1,9]
+l2 = ['a','b','c','d']
+for i,j in zip(l1,l2):
+    print (i,j)
+----
+
+
++*Out[3]:*+
+----
+4 a
+7 b
+1 c
+9 d
+----
+
+
++*In[4]:*+
+[source, ipython3]
+----
+l1 = [4,7,1,9]
+l2 = ['a','b']
+for i,j in zip(l1,l2):
+    print (i,j)
+----
+
+
++*Out[4]:*+
+----
+4 a
+7 b
+----
+
+
++*In[5]:*+
+[source, ipython3]
+----
+l1 = [4,7,1,9]
+l2 = [6,2,3,1]
+for i,j in zip(l1,l2):
+    print (i+j)
+----
+
+
++*Out[5]:*+
+----
+10
+9
+4
+10
+----
+
+
++*In[6]:*+
+[source, ipython3]
+----
+l1 = [4,7,1,9]
+l2 = ['a','b','c','d']
+dico={j:i for i,j in zip(l1,l2)}
+print(dico)
+----
+
+
++*Out[6]:*+
+----
+{'a': 4, 'b': 7, 'c': 1, 'd': 9}
+----
+
+Expliquez ici ce que réalise cette fonction ?
+
+....
+    Cette fonction attache les éléments de la lise 1 avec celui de la liste 2 qui lui est associé par l'index.
+....
+
+== 2- La fonction filter
+
+
++*In[7]:*+
+[source, ipython3]
+----
+def pair(x):
+    return x%2==0
+
+ma_liste = range(10)
+new_liste=filter(pair, ma_liste)
+for x in new_liste:
+    print(x,end=" ")
+
+# Notons que l'on pourrez faire :
+new_liste=[x for x in range(10) if x%2==0]
+----
+
+
++*Out[7]:*+
+----
+0 2 4 6 8 ----
+
+
++*In[11]:*+
+[source, ipython3]
+----
+def sup50(x):
+    return x>50
+
+ma_liste=[12,51,66,25,4]
+new_liste=filter(sup50,ma_liste)
+for x in new_liste:
+    print(x,end=" ")
+
+# De même
+new_liste=[x for x in ma_liste if x>50]
+print(new_liste)
+----
+
+
++*Out[11]:*+
+----
+51 66 [51, 66]
+----
+
+Expliquez ici ce que réalise cette fonction ?
+
+....
+Cette fonction permet de n'afficher des éléments d'une liste que s'ils respectent une condition
+....
+
+== 3- La fonction sorted
+
+La syntaxe de sorted est la suivante :
+
+sorted(iterable, key=None, reverse=False)
+
+L’argument ``iterable'' est obligatoire, c’est celui qu’il faut trier.
+Ce peut être une chaîne de caractères, une liste, un dictionnaire, un
+tuple …
+
+L’argument ``key'' est optionnel. C’est un critère qui permet de
+personnaliser le tri.
+
+L’argument ``reverse'' est également optionnel, il permet d’inverser
+l’ordre du tri (croissant, décroissant).
+
+
++*In[12]:*+
+[source, ipython3]
+----
+l1 = [4,7,1,9]
+l2 = ['a','b','c','d']
+
+print(sorted(l2, reverse=True))
+print(sorted(l1))
+----
+
+
++*Out[12]:*+
+----
+['d', 'c', 'b', 'a']
+[1, 4, 7, 9]
+----
+
+
++*In[20]:*+
+[source, ipython3]
+----
+dico={'a': 4, 'ab': 7, 'abc': 1, 'abcd': 9}
+
+print(sorted(dico, key=len, reverse=True))
+print(sorted(dico))
+
+----
+
+
++*Out[20]:*+
+----
+['abcd', 'abc', 'ab', 'a']
+['a', 'ab', 'abc', 'abcd']
+----
+
+
++*In[16]:*+
+[source, ipython3]
+----
+# Trie une liste d'entiers en fonction
+# du reste de la division  par 7 
+  
+def function(x): 
+    return x % 7
+  
+liste = [15, 3, 11, 7] 
+  
+print ("Tri par defaut :", sorted(liste) )
+print ("Tri avec pour critère la clé:", sorted(liste, key = function) )
+
+----
+
+
++*Out[16]:*+
+----
+Tri par defaut : [3, 7, 11, 15]
+Tri avec pour critère la clé: [7, 15, 3, 11]
+----
+
+== 4- La fonction eval
+
+
++*In[21]:*+
+[source, ipython3]
+----
+"""
+La fonction eval() nous permet d’exécuter des chaînes de
+caractères en tant qu' instruction Python. Elle accepte
+une chaîne de caractère et retourne un objet.
+"""
+eval("2 > 1")
+----
+
+
++*Out[21]:*+
+----True----
+
+
++*In[22]:*+
+[source, ipython3]
+----
+eval("sum([1,2,3])")
+----
+
+
++*Out[22]:*+
+----6----
+
+
++*In[23]:*+
+[source, ipython3]
+----
+eval('"bonjour".upper()')
+----
+
+
++*Out[23]:*+
+----'BONJOUR'----
+
+== 5- Les fonctions lambda
+
+Les lambdas Python sont de petites fonctions anonymes, soumises à une
+syntaxe plus restrictive mais plus concise que les fonctions Python
+classiques. La syntaxe est la suivante :
+
+*lambda arguments:expression*
+
+
++*In[25]:*+
+[source, ipython3]
+----
+# Ce que nous savons faire :
+def additionne(a,b,c):
+    return a+b+c
+
+resultat = additionne(10, 10, 10)
+print(resultat)
+----
+
+
++*Out[25]:*+
+----
+30
+----
+
+
++*In[26]:*+
+[source, ipython3]
+----
+# Ce que nous pourrions faire
+additionne = lambda a, b, c: a + b + c
+print(additionne(10, 10, 10))
+----
+
+
++*Out[26]:*+
+----
+30
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----

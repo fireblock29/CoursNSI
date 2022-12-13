@@ -1,0 +1,527 @@
+#
+
+NUMERIQUE ET SCIENCES INFORMATIQUES 1ère NSI
+
+== Séquence N° 8 : Traitement de données en table
+
+Les objectifs de cette séquence sont : - d’importer une table depuis un
+fichier CSV ; - rechercher des enregistrements vérifiants des critères ;
+- trier une table selon un attribut ; - construire une nouvelle table en
+combinant les données de 2 tables.
+
+== 1- L’OpenData
+
+Les données que nous allons utilisées sont disponibles sur Internet sans
+aucune condition d’accès : c’est l’OpenData.
+
+Pour en savoir un peu plus : https://youtu.be/aHxv_2BMJfw
+
+Quelques sites plus ou moins prôche de nous :
+
+https://www.data.gouv.fr/fr/organizations/brest-metropole-oceane/
+
+https://opendata.finistere.fr/explore/?sort=modified
+
+https://www.data.gouv.fr/fr/posts/les-donnees-des-elections/
+
+Les données sur lesquelles nous allons travailler, sont issues de ce
+dernier site. Elles concernent les résultats du premier tour des
+élections présidentielles 2017.
+
+== 2- L’étude
+
+*Problématique* : Les conditions de remboursement des frais de campagne
+électorale dépendent du score du candidat. Trois cas de figure sont
+possibles :
+
+* Le candidat est éliminé à l’issue du premier tour et obtient *moins de
+5 % des suffrages exprimés* : ce dernier peut alors prétendre à un
+remboursement de ses frais de campagne à hauteur de 4,75 % du montant du
+plafond de dépenses autorisé, soit une somme de 800 423 euros.
+* Le candidat est éliminé à l’issue du premier tour, mais obtient *plus
+de 5 % des suffrages exprimés* : le candidat peut prétendre à un
+remboursement de ses frais de campagne à hauteur de 47,5 % du montant du
+plafond de dépenses autorisé, soit une somme de 8 004 225 euros.
+* Le candidat est qualifié pour le second tour de l’élection : le
+candidat peut alors prétendre à un remboursement de ses frais de
+campagne à hauteur de 47,5 % du montant du plafond spécifique aux
+candidats du second tour, soit une somme de 10 691 775 euros.
+
+*On souhaite connaître la somme à rembourser à chaque candidat
+non-qualifé au second tour de l’élection présidentielle de 2017.*
+
+Pour plus de détails :
+https://www.interieur.gouv.fr/Archives/Archives-elections/Election-presidentielle-2017/Election-presidentielle-2017-le-financement-de-la-campagne
+
+On dispose pour ce travail, de *3 tables (relations)*.
+
+== Répartition des votes (repartition_votes.csv)
+
+image:Images/table_def.png[image] Exprimés = Votants - (Blanc + Nuls)
+
+== Répartition pour la Métropole (Presidentielle_metropole.csv)
+
+[cols=",,,",options="header",]
+|===
+|*Candidat* |*Voix* |**%_ins** |**%_exp**
+|M. DUPONT-AIGNAN Nicolas |1665507 |3,75 |4,8
+|Mme LE PEN Marine |7465123 |16,8 |21,52
+|M. MACRON Emmanuel |8267074 |18,6 |23,83
+|M. HAMON Benoît |2189394 |4,93 |6,31
+|Mme ARTHAUD Nathalie |219219 |0,49 |0,63
+|M. POUTOU Philippe |376935 |0,85 |1,09
+|M. CHEMINADE Jacques |62166 |0,14 |0,18
+|M. LASSALLE Jean |427564 |0,96 |1,23
+|M. MÉLENCHON Jean-Luc |6803933 |15,31 |19,61
+|M. ASSELINEAU François |313831 |0,71 |0,9
+|M. FILLON François |6899161 |15,52 |19,89
+|===
+
+== Répartition pour les départements d’Outre-mer (Presidentielle_outre-mer.csv)
+
+[cols=",,,",options="header",]
+|===
+|*Candidat* |*Voix* |**%_ins** |**%_exp**
+|M. DUPONT-AIGNAN Nicolas |20656 |1,1 |2,55
+|Mme LE PEN Marine |177442 |9,46 |21,9
+|M. MACRON Emmanuel |165393 |8,82 |20,41
+|M. HAMON Benoît |63802 |3,4 |7,87
+|Mme ARTHAUD Nathalie |11853 |0,63 |1,46
+|M. POUTOU Philippe |14156 |0,76 |1,75
+|M. CHEMINADE Jacques |2390 |0,13 |0,29
+|M. LASSALLE Jean |5207 |0,28 |0,64
+|M. MÉLENCHON Jean-Luc |168326 |8,98 |20,77
+|M. ASSELINEAU François |13138 |0,7 |1,62
+|M. FILLON François |168005 |8,96 |20,73
+|===
+
+____
+Si vous deviez répondre à la problématique sans utiliser l’informatique,
+quelle serait votre démarche ?
+____
+
+== 2-1- Chargement des données
+
+Les données à manipuler sont dans 3 fichiers de type CSV. Nous allons
+les traiter de *2 manières différentes* :
+
+* En ce qui concerne les fichiers ``Presidentielle_metropole'' et
+``Presidentielle_outre-mer'', la fonction doit renvoyer une liste de
+dictionnaires non ordonnés.
+
+
++*In[2]:*+
+[source, ipython3]
+----
+import csv
+
+def lecture_fichier(fichier):
+    """
+    La fonction lit un fichier CSV et génère un dictionnaire
+    dont les clés sont extraites de la première ligne du fichier
+    
+    Entrée :    Un fichier texte. Chaque ligne comporte les valeurs
+                séparée par des virgules.
+                La première ligne contient le nom des attributs
+    Sortie :    une liste de dictionnaires non ordonnés
+    """
+    with open(fichier) as csv_file:
+        lecteur= csv.DictReader(csv_file, delimiter=',')
+        return [dict(ligne) for ligne in lecteur] # conversion des dictionnaires ordonnés en dictionnaires
+----
+
+
++*In[3]:*+
+[source, ipython3]
+----
+print(lecture_fichier('Presidentielle_metropole.csv'))
+print("salut mec")
+print(lecture_fichier('Presidentielle_outre-mer.csv'))
+----
+
+
++*Out[3]:*+
+----
+[{'Candidat': 'M. DUPONT-AIGNAN Nicolas', 'Voix': '1665507', '%_ins': '3.75', '%_exp': '4.8'}, {'Candidat': 'Mme LE PEN Marine', 'Voix': '7465123', '%_ins': '16.8', '%_exp': '21.52'}, {'Candidat': 'M. MACRON Emmanuel', 'Voix': '8267074', '%_ins': '18.6', '%_exp': '23.83'}, {'Candidat': 'M. HAMON Benoît', 'Voix': '2189394', '%_ins': '4.93', '%_exp': '6.31'}, {'Candidat': 'Mme ARTHAUD Nathalie', 'Voix': '219219', '%_ins': '0.49', '%_exp': '0.63'}, {'Candidat': 'M. POUTOU Philippe', 'Voix': '376935', '%_ins': '0.85', '%_exp': '1.09'}, {'Candidat': 'M. CHEMINADE Jacques', 'Voix': '62166', '%_ins': '0.14', '%_exp': '0.18'}, {'Candidat': 'M. LASSALLE Jean', 'Voix': '427564', '%_ins': '0.96', '%_exp': '1.23'}, {'Candidat': 'M. MÉLENCHON Jean-Luc', 'Voix': '6803933', '%_ins': '15.31', '%_exp': '19.61'}, {'Candidat': 'M. ASSELINEAU François', 'Voix': '313831', '%_ins': '0.71', '%_exp': '0.9'}, {'Candidat': 'M. FILLON François', 'Voix': '6899161', '%_ins': '15.52', '%_exp': '19.89'}]
+salut mec
+[{'Candidat': 'M. DUPONT-AIGNAN Nicolas', 'Voix': '20656', '%_ins': '1.1', '%_exp': '2.55'}, {'Candidat': 'Mme LE PEN Marine', 'Voix': '177442', '%_ins': '9.46', '%_exp': '21.9'}, {'Candidat': 'M. MACRON Emmanuel', 'Voix': '165393', '%_ins': '8.82', '%_exp': '20.41'}, {'Candidat': 'M. HAMON Benoît', 'Voix': '63802', '%_ins': '3.4', '%_exp': '7.87'}, {'Candidat': 'Mme ARTHAUD Nathalie', 'Voix': '11853', '%_ins': '0.63', '%_exp': '1.46'}, {'Candidat': 'M. POUTOU Philippe', 'Voix': '14156', '%_ins': '0.76', '%_exp': '1.75'}, {'Candidat': 'M. CHEMINADE Jacques', 'Voix': '2390', '%_ins': '0.13', '%_exp': '0.29'}, {'Candidat': 'M. LASSALLE Jean', 'Voix': '5207', '%_ins': '0.28', '%_exp': '0.64'}, {'Candidat': 'M. MÉLENCHON Jean-Luc', 'Voix': '168326', '%_ins': '8.98', '%_exp': '20.77'}, {'Candidat': 'M. ASSELINEAU François', 'Voix': '13138', '%_ins': '0.76', '%_exp': '1.62'}, {'Candidat': 'M. FILLON François', 'Voix': '168005', '%_ins': '8.96', '%_exp': '20.73'}]
+----
+
+* En ce qui concerne le fichier ``Repartition_votes'', la fonction est
+un peu particulière car après avoir lut le fichier, elle renvoie le
+nombre de suffrages exprimés. En effet, les autres informations ne nous
+sont pas utiles.
+
+
++*In[4]:*+
+[source, ipython3]
+----
+import csv
+
+def lecture_repartition(fichier) :
+    """
+    La fonction lit le fichier csv et calcule le nombre d'inscrits
+    Entrée : fichier csv
+    Sortie : nombre de suffrages exprimés de type entier
+    """
+    with open(fichier) as csv_file:
+        liste= list(csv.reader(csv_file, delimiter=',')) # Récupération d'une liste de liste
+        exprimes=liste.pop(-1) # Récupération de la dernière liste
+    return (int(exprimes[1])+int(exprimes[2])) # Renvoi du nombre de suffrages exprimés
+
+----
+
+
++*In[5]:*+
+[source, ipython3]
+----
+imp=lecture_repartition('Repartition_votes.csv')
+----
+
+== 2-2- Projection : sélectionne un ou plusieurs attributs (colonne) d’une table
+
+Les 2 tables ``Presidentielle_metropole'' et
+``Presidentielle_outre-mer'' possèdent 4 attributs : Candidat, Voix,
+%_ins et %_exp. Les 2 derniers ne nous intéressent pas, il faut donc les
+éliminer des deux tables.
+
+* Compléter la fonction ci-dessous qui doit réaliser cette tâche.
++
+
+
++*In[6]:*+
+[source, ipython3]
+----
+def lecture_fichier(fichier):
+    """
+    La fonction lit un fichier CSV et génère un dictionnaire
+    dont les clés sont extraites de la première ligne du fichier
+    
+    Entrée :    Un fichier texte. Chaque ligne comporte les valeurs
+                séparée par des virgules.
+                La première ligne contient le nom des attributs
+    Sortie :    une liste de dictionnaires non ordonnés
+    """
+    with open(fichier) as csv_file:
+        lecteur= csv.DictReader(csv_file, delimiter=',')
+        return [dict(ligne) for ligne in lecteur] # conversion des dictionnaires ordonnés en dictionnaires
+    
+def projection(table, liste_attributs):
+    """
+    La fonction sélectionne un ou plusieurs attributs (colonne)d'une table
+    Entrée : une liste de dictionnaires et une liste d'attributs à retenir
+    Sortie : une liste de dictionnaires contenant uniquement les attributs
+     
+    new_liste=[]
+    for elt in table:
+        new_liste.append((elt["Candidat"], elt["Voix"]))
+    """
+    return [{elt["Candidat"]:elt["Voix"]} for elt in table]
+    
+   
+    
+data=lecture_fichier('Presidentielle_metropole.csv')
+#print(data)
+new_data=projection(data,['Candidat','Voix'])
+print(new_data)
+data2=lecture_fichier('Presidentielle_outre-mer.csv')
+new_data2=projection(data2,['Candidat','Voix'])
+print(new_data2)
+----
+
+
++*Out[6]:*+
+----
+[{'M. DUPONT-AIGNAN Nicolas': '1665507'}, {'Mme LE PEN Marine': '7465123'}, {'M. MACRON Emmanuel': '8267074'}, {'M. HAMON Benoît': '2189394'}, {'Mme ARTHAUD Nathalie': '219219'}, {'M. POUTOU Philippe': '376935'}, {'M. CHEMINADE Jacques': '62166'}, {'M. LASSALLE Jean': '427564'}, {'M. MÉLENCHON Jean-Luc': '6803933'}, {'M. ASSELINEAU François': '313831'}, {'M. FILLON François': '6899161'}]
+[{'M. DUPONT-AIGNAN Nicolas': '20656'}, {'Mme LE PEN Marine': '177442'}, {'M. MACRON Emmanuel': '165393'}, {'M. HAMON Benoît': '63802'}, {'Mme ARTHAUD Nathalie': '11853'}, {'M. POUTOU Philippe': '14156'}, {'M. CHEMINADE Jacques': '2390'}, {'M. LASSALLE Jean': '5207'}, {'M. MÉLENCHON Jean-Luc': '168326'}, {'M. ASSELINEAU François': '13138'}, {'M. FILLON François': '168005'}]
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+Les 2 tables ``Presidentielle_metropole'' et
+``Presidentielle_outre-mer'' possèdent maintenant 2 attributs : Candidat
+et Voix. Cependant le type de `Voix' ne permet pas de réaliser des
+calculs.
+
+* Compléter la fonction ci-dessous qui doit réaliser cette tâche.
++
+
+
++*In[7]:*+
+[source, ipython3]
+----
+def conversion_type(table):
+    """
+    La fonction reçoit une table et convertit
+    la valeur de la clé 'Voix' en type entier
+    Entrée : liste de dictionnaires dont les valeurs sont de type str
+    Sortie : liste de dictionnaires dont les valeurs sont de type entier
+    """
+    newtable=[]
+    """
+    for i in table:
+        for cle,valeur in i.items():
+            a=valeur
+            a=int(a)
+            newtable.append({cle:int(a)})
+            """
+    for i in table:
+        for c in i:
+            i[c] = int(i[c])
+    return table
+convtable=conversion_type(new_data)
+convtable2=conversion_type(new_data2)
+
+----
+
+
++*In[8]:*+
+[source, ipython3]
+----
+for i in convtable:
+    for c,v in i.items():
+        print(c,v)
+----
+
+
++*Out[8]:*+
+----
+M. DUPONT-AIGNAN Nicolas 1665507
+Mme LE PEN Marine 7465123
+M. MACRON Emmanuel 8267074
+M. HAMON Benoît 2189394
+Mme ARTHAUD Nathalie 219219
+M. POUTOU Philippe 376935
+M. CHEMINADE Jacques 62166
+M. LASSALLE Jean 427564
+M. MÉLENCHON Jean-Luc 6803933
+M. ASSELINEAU François 313831
+M. FILLON François 6899161
+----
+
+== 2-3- Jointure de 2 tables (nombre voix métrôpole + outre-mer)
+
+Il nous faut à présent connaître le nombre de voix total des candidats.
+On va fusionner les 2 tables métropole et outre-mer. L’attribut commun
+sera le nom du candidat.
+
+* Compléter la fonction ci-dessous qui doit réaliser cette tâche. C’est
+ici que l’on va tirer avantage de la fonction built-in ``zip'' aperçue
+sur le document de formation précédent.
++
+
+
++*In[31]:*+
+[source, ipython3]
+----
+def jointure(table_om, table_m):
+    """
+    La fonction reçoit les deux tables et additionne
+    le nombre de voix du candidat en métropole et outre-mer
+    Entrée : 2 listes de dictionnaires ayant pour clés 'Candidat' et 'Voix'
+    Sortie : 1 liste de listes ayant pour valeurs le nom du candidat et
+            son total de voix (metropole + outre-mer)
+    """
+    l1=[]
+    noms=[]
+    l2=[]
+    lsum=[]
+    lsumoff={}
+    for elt in convtable:
+        for c,v in elt.items():
+            noms.append(c)
+            l1.append(v)
+    for elt in convtable2:
+        for c,v in elt.items():
+            l2.append(v)
+    for i in range(len(l1)):
+        lsum.append(l1[i]+l2[i])
+    for i in range (len(lsum)):
+        lsumoff[noms[i]]=lsum[i]
+    return lsumoff
+joint=jointure(convtable, convtable2)
+----
+
+== 2-3- Tri selon critères (classement selon le nombre de voix)
+
+
++*In[32]:*+
+[source, ipython3]
+----
+joint
+----
+
+
++*Out[32]:*+
+----{'M. DUPONT-AIGNAN Nicolas': 1686163,
+ 'Mme LE PEN Marine': 7642565,
+ 'M. MACRON Emmanuel': 8432467,
+ 'M. HAMON Benoît': 2253196,
+ 'Mme ARTHAUD Nathalie': 231072,
+ 'M. POUTOU Philippe': 391091,
+ 'M. CHEMINADE Jacques': 64556,
+ 'M. LASSALLE Jean': 432771,
+ 'M. MÉLENCHON Jean-Luc': 6972259,
+ 'M. ASSELINEAU François': 326969,
+ 'M. FILLON François': 7067166}----
+
+On va maintenant classer les candidats dans l’ordre décroissant du
+nombre de suffrages exprimés.
+
+* Compléter la fonction ci-dessous qui doit réaliser cette tâche. C’est
+ici que l’on va tirer avantage de la fonction built-in ``sorted''
+aperçue sur le document de formation précédent.
++
+
+
++*In[35]:*+
+[source, ipython3]
+----
+def tri(table, mode):
+    """
+    La fonction trie la table fournie selon le nombre de voix
+    des candidats dans le sens décroissant.
+    Entrées : une liste de liste, le critère de tri : entier
+            et le mode de tri booléen True ou False
+    Sortie une liste triée
+    """
+    tableoff=sorted(table.items(), key=lambda i:i[1])
+    return tableoff
+    
+    
+----
+
+
++*In[36]:*+
+[source, ipython3]
+----
+newl=tri(joint, False)
+print(newl)
+----
+
+
++*Out[36]:*+
+----
+[('M. CHEMINADE Jacques', 64556), ('Mme ARTHAUD Nathalie', 231072), ('M. ASSELINEAU François', 326969), ('M. POUTOU Philippe', 391091), ('M. LASSALLE Jean', 432771), ('M. DUPONT-AIGNAN Nicolas', 1686163), ('M. HAMON Benoît', 2253196), ('M. MÉLENCHON Jean-Luc', 6972259), ('M. FILLON François', 7067166), ('Mme LE PEN Marine', 7642565), ('M. MACRON Emmanuel', 8432467)]
+----
+
+== 2-4- Sélection dans une table (>= 5% exprimé)
+
+* Calculer le nombre de voix correspondant à 5% des suffrages exprimés ;
+* Éliminer de la liste triée précédemment les candidats allant au second
+tour de l’élections, c’est à dire les 2 candidats qui ont le plus de
+voix ;
+* Créer une fonction qui génère une liste des candidats recalés au
+premier tour ayant obtenus au moins 5% des suffrages exprimés. Pour
+cela, compléter la fonction ci-dessous qui doit réaliser cette tâche.
++
+
+
++*In[41]:*+
+[source, ipython3]
+----
+def select(table,critere):
+    """
+    La fonction sélectionne des lignes de la table passée
+    en paramètre vérifiant un critère également passé
+    en paramètre
+    Entrée : une liste de listes
+    Sortie : une liste de listes répondant au critère
+    """
+    cand47_5=[]
+    cand4_75=[]
+    crit=int(imp*(critere/100))
+    sec=[table[-1][0],table[-2][0]]
+    for i in table[0:-2]:
+        if i[1]>=crit:
+            cand47_5.append(i[0])
+        elif i[1]<crit:
+            cand4_75.append(i[0])
+    return sec,cand47_5,cand4_75
+----
+
+
++*In[42]:*+
+[source, ipython3]
+----
+cand47_5,cand4_75=select(newl, 5)
+----
+
+
++*Out[42]:*+
+----
+
+    ---------------------------------------------------------------------------
+
+    ValueError                                Traceback (most recent call last)
+
+    <ipython-input-42-04dfd61ef774> in <module>
+    ----> 1 cand47_5,cand4_75=select(newl, 5)
+    
+
+    ValueError: too many values to unpack (expected 2)
+
+----
+
+
++*In[53]:*+
+[source, ipython3]
+----
+imp=lecture_repartition('Repartition_votes.csv')
+data=lecture_fichier('Presidentielle_metropole.csv')
+new_data=projection(data,['Candidat','Voix'])
+data2=lecture_fichier('Presidentielle_outre-mer.csv')
+new_data2=projection(data2,['Candidat','Voix'])
+convtable=conversion_type(new_data)
+convtable2=conversion_type(new_data2)
+joint=jointure(convtable, convtable2)
+newl=tri(joint, False)
+sec,cand47_5,cand4_75=select(newl, 5)
+print(f"Les candidats {sec[0]} et {sec[1]} passent au second tour !")
+print(f"Les candidats", end=" ")
+for i in cand47_5:
+    print(i, end=" ")
+print("vont bénéficier d'un remboursement de 47.5% de leurs frais de campagne")
+print(f"Les candidats", end=" ")
+for i in cand4_75:
+    print(i, end=" ")
+print("vont bénéficier d'un remboursement de 4.75% de leurs frais de campagne")
+----
+
+
++*Out[53]:*+
+----
+Les candidats M. MACRON Emmanuel et Mme LE PEN Marine passent au second tour !
+Les candidats M. HAMON Benoît M. MÉLENCHON Jean-Luc M. FILLON François vont bénéficier d'un remboursement de 47.5% de leurs frais de campagne
+Les candidats M. CHEMINADE Jacques Mme ARTHAUD Nathalie M. ASSELINEAU François M. POUTOU Philippe M. LASSALLE Jean M. DUPONT-AIGNAN Nicolas vont bénéficier d'un remboursement de 4.75% de leurs frais de campagne
+
+
+    ---------------------------------------------------------------------------
+
+    TypeError                                 Traceback (most recent call last)
+
+    <ipython-input-53-b197c0cf9598> in <module>
+         25     writer = csv.writer(file)
+         26     c = csv.writer(open("MONFICHIER.csv", "wb"))
+    ---> 27     for row in c:
+         28         print (row)
+         29 finally:
+
+
+    TypeError: '_csv.writer' object is not iterable
+
+----
+
+== 2-5- Algorithme -Affichage - Sauvegarde du traitement
+
+* Tracer l’algorithme d’appel des fonctions réalisées ;
+* Afficher les résultats du traitement :
+** Nom des candidats dont le nombre de voix ≥ 5% des suffrages exprimés
+** Nom des candidats dont le nombre de voix est < 5%
+* Sauvegarder les résultats du traitement dans 2 fichiers csv.
++
